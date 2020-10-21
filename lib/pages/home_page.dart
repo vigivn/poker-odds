@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poker_odds/widgets/community_desk.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -9,8 +10,10 @@ class HomePage extends StatelessWidget {
         title: Text("Poker Odds"),
       ),
       body: Container(
-        child: Center(
-          child: Text("INIT"),
+        child: Column(
+          children: [
+            CommunityDesk(),
+          ],
         ),
       ),
     );
