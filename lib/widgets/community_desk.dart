@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:poker_odds/widgets/card_field.dart';
+import 'package:poker_odds/data/data.dart';
+import 'package:provider/provider.dart';
 
 class CommunityDesk extends StatefulWidget {
   @override
@@ -14,11 +15,11 @@ class _CommunityDeskState extends State<CommunityDesk> {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          CardField(name: ""),
-          CardField(name: ""),
-          CardField(name: ""),
-          CardField(name: ""),
-          CardField(name: ""),
+          context.watch<Data>().desk[0],
+          context.watch<Data>().desk[1],
+          context.watch<Data>().desk[2],
+          context.watch<Data>().desk[3],
+          context.watch<Data>().desk[4],
         ],
       ),
     );
