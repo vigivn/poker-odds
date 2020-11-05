@@ -1,32 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:poker_odds/widgets/card_field_board.dart';
+import 'package:poker_odds/widgets/player_desk.dart';
 
 class Data with ChangeNotifier {
   String _cardSelectorType = "C";
   bool _showCardSelector = false;
-  int _currCardFieldIdex = -1;
+  GlobalKey<CardFieldBoardState> _selectedFieldKey =
+      GlobalKey<CardFieldBoardState>();
 
-  var _desk = [
-    CardFieldBoard(
-      name: "",
-      index: 0,
-    ),
-    CardFieldBoard(
-      name: "",
-      index: 1,
-    ),
-    CardFieldBoard(
-      name: "",
-      index: 2,
-    ),
-    CardFieldBoard(
-      name: "",
-      index: 3,
-    ),
-    CardFieldBoard(
-      name: "",
-      index: 4,
-    ),
+  List<GlobalKey<CardFieldBoardState>> _communityDeskKeys = [
+    GlobalKey<CardFieldBoardState>(),
+    GlobalKey<CardFieldBoardState>(),
+    GlobalKey<CardFieldBoardState>(),
+    GlobalKey<CardFieldBoardState>(),
+    GlobalKey<CardFieldBoardState>(),
   ];
 
   String get cardSelectorType {
@@ -37,35 +24,34 @@ class Data with ChangeNotifier {
     return _showCardSelector;
   }
 
-  int get currCardFieldIdex {
-    return _currCardFieldIdex;
+  List<GlobalKey<CardFieldBoardState>> get communityDeskKeys {
+    return _communityDeskKeys;
   }
 
-  List<CardFieldBoard> get desk {
-    return _desk;
+  GlobalKey<CardFieldBoardState> get selectedFieldKey {
+    return _selectedFieldKey;
   }
 
-  void updateCardSelectorType(String type) {
+  set cardSelectorType(String type) {
     _cardSelectorType = type;
     notifyListeners();
   }
 
-  void updateShowCardSelector(bool value) {
+  set showCardSelector(bool value) {
     _showCardSelector = value;
     notifyListeners();
   }
 
-  void updateCurrCardFieldIdex(int index) {
-    _currCardFieldIdex = index;
+  set selectedField(GlobalKey<CardFieldBoardState> cardFieldKey) {
+    _selectedFieldKey = cardFieldKey;
+
     notifyListeners();
   }
 
-  void updateDesk(int index, String newName) {
-    _desk[index] = CardFieldBoard(
-      name: newName,
-      index: index,
+  PlayerDesk newPlayerDesk() {
+    return PlayerDesk(
+      cardKey1: GlobalKey<CardFieldBoardState>(),
+      cardKey2: GlobalKey<CardFieldBoardState>(),
     );
-
-    notifyListeners();
   }
 }

@@ -9,8 +9,6 @@ class CardFieldSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var index = context.watch<Data>().currCardFieldIdex;
-
     return Container(
         child: Card(
           child: InkWell(
@@ -19,9 +17,12 @@ class CardFieldSelector extends StatelessWidget {
             ),
             splashColor: Theme.of(context).accentColor,
             onTap: () {
-              context.read<Data>().updateDesk(index, name);
-              context.read<Data>().updateShowCardSelector(false);
-              context.read<Data>().updateCurrCardFieldIdex(-1);
+              context
+                  .read<Data>()
+                  .selectedFieldKey
+                  .currentState
+                  .updateName(name);
+              context.read<Data>().showCardSelector = false;
             },
           ),
         ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:poker_odds/data/data.dart';
 import 'package:poker_odds/widgets/card_selector.dart';
 import 'package:poker_odds/widgets/community_desk.dart';
+import 'package:poker_odds/widgets/player_desk.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,9 +12,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<PlayerDesk> _playersDesk = [];
+
   @override
   Widget build(BuildContext context) {
-    int index = 0;
+    var index = 0;
     switch (context.watch<Data>().cardSelectorType) {
       case "C":
         index = 0;
@@ -66,7 +69,7 @@ class _HomePageState extends State<HomePage> {
           default:
             type = "C";
         }
-        context.read<Data>().updateCardSelectorType(type);
+        context.read<Data>().cardSelectorType = type;
       },
     );
     return Scaffold(
@@ -79,13 +82,31 @@ class _HomePageState extends State<HomePage> {
           children: [
             CommunityDesk(),
             Expanded(
-              child: Container(),
+              child: ListView.separated(
+                separatorBuilder: (BuildContext context, int index) =>
+                    const Divider(
+                  color: Colors.white,
+                  thickness: 2,
+                ),
+                itemCount: _playersDesk.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return _playersDesk[index];
+                },
+              ),
             ),
             context.watch<Data>().showCardSelector
                 ? CardSelector()
                 : SizedBox.shrink(),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          setState(() {
+            _playersDesk.add(context.read<Data>().newPlayerDesk());
+          });
+        },
       ),
       bottomNavigationBar:
           context.watch<Data>().showCardSelector ? curvedNavigationBar : null,

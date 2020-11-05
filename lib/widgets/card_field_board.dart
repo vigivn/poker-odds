@@ -2,14 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:poker_odds/data/data.dart';
 import 'package:provider/provider.dart';
 
-class CardFieldBoard extends StatelessWidget {
-  CardFieldBoard({
-    @required this.name,
-    @required this.index,
-  });
+class CardFieldBoard extends StatefulWidget {
+  CardFieldBoard({this.globalKey}) : super(key: globalKey);
+  final GlobalKey<CardFieldBoardState> globalKey;
+  @override
+  CardFieldBoardState createState() => CardFieldBoardState();
+}
 
-  final String name;
-  final int index;
+class CardFieldBoardState extends State<CardFieldBoard> {
+  String _name;
+
+  @override
+  void initState() {
+    _name = "";
+    super.initState();
+  }
+
+  void updateName(final String newName) {
+    setState(() {
+      _name = newName;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,24 +31,22 @@ class CardFieldBoard extends StatelessWidget {
       child: Card(
         child: InkWell(
           child: Center(
-            child: (name == null || name == "")
+            child: (_name == null || _name == "")
                 ? Icon(Icons.add)
-                : Image.asset('assets/images/$name.png'),
+                : Image.asset('assets/images/$_name.png'),
           ),
           splashColor: Theme.of(context).accentColor,
           onTap: () {
-            if (name == "") {
+            if (_name == "") {
               if (!showCardSelecor) {
-                context.read<Data>().updateShowCardSelector(true);
-                context.read<Data>().updateCurrCardFieldIdex(index);
+                context.read<Data>().selectedField = widget.globalKey;
+                context.read<Data>().showCardSelector = true;
               } else {
-                context.read<Data>().updateShowCardSelector(false);
-                context.read<Data>().updateCurrCardFieldIdex(-1);
+                context.read<Data>().showCardSelector = false;
               }
             } else {
-              context.read<Data>().updateShowCardSelector(false);
-              context.read<Data>().updateDesk(index, "");
-              context.read<Data>().updateCurrCardFieldIdex(-1);
+              updateName("");
+              context.read<Data>().showCardSelector = false;
             }
           },
         ),
