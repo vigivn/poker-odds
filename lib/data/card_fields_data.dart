@@ -48,10 +48,11 @@ class CardFieldsData with ChangeNotifier {
     notifyListeners();
   }
 
-  PlayerDesk newPlayerDesk() {
+  PlayerDesk newPlayerDesk(Function remove) {
     return PlayerDesk(
       cardKey1: GlobalKey<CardFieldBoardState>(),
       cardKey2: GlobalKey<CardFieldBoardState>(),
+      remove: remove,
     );
   }
 }

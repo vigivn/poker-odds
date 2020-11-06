@@ -19,6 +19,10 @@ class CardFieldBoardState extends State<CardFieldBoard> {
     super.initState();
   }
 
+  String get name {
+    return _name;
+  }
+
   void updateName(final String newName) {
     setState(() {
       _name = newName;
