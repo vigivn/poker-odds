@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:poker_odds/data/data.dart';
+import 'package:poker_odds/data/available_cards_data.dart';
+import 'package:poker_odds/data/card_fields_data.dart';
 import 'package:provider/provider.dart';
 
 class CardFieldBoard extends StatefulWidget {
@@ -26,7 +27,7 @@ class CardFieldBoardState extends State<CardFieldBoard> {
 
   @override
   Widget build(BuildContext context) {
-    var showCardSelecor = context.watch<Data>().showCardSelector;
+    var showCardSelecor = context.watch<CardFieldsData>().showCardSelector;
     return Container(
       child: Card(
         child: InkWell(
@@ -39,14 +40,15 @@ class CardFieldBoardState extends State<CardFieldBoard> {
           onTap: () {
             if (_name == "") {
               if (!showCardSelecor) {
-                context.read<Data>().selectedField = widget.globalKey;
-                context.read<Data>().showCardSelector = true;
+                context.read<CardFieldsData>().selectedField = widget.globalKey;
+                context.read<CardFieldsData>().showCardSelector = true;
               } else {
-                context.read<Data>().showCardSelector = false;
+                context.read<CardFieldsData>().showCardSelector = false;
               }
             } else {
+              context.read<AvailableCardsData>().updateAvailable(_name, true);
               updateName("");
-              context.read<Data>().showCardSelector = false;
+              context.read<CardFieldsData>().showCardSelector = false;
             }
           },
         ),

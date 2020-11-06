@@ -1,6 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:poker_odds/data/data.dart';
+import 'package:poker_odds/data/card_fields_data.dart';
 import 'package:poker_odds/widgets/card_selector.dart';
 import 'package:poker_odds/widgets/community_desk.dart';
 import 'package:poker_odds/widgets/player_desk.dart';
@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     var index = 0;
-    switch (context.watch<Data>().cardSelectorType) {
+    switch (context.watch<CardFieldsData>().cardSelectorType) {
       case "C":
         index = 0;
         break;
@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
           default:
             type = "C";
         }
-        context.read<Data>().cardSelectorType = type;
+        context.read<CardFieldsData>().cardSelectorType = type;
       },
     );
     return Scaffold(
@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
             ),
-            context.watch<Data>().showCardSelector
+            context.watch<CardFieldsData>().showCardSelector
                 ? CardSelector()
                 : SizedBox.shrink(),
           ],
@@ -104,12 +104,13 @@ class _HomePageState extends State<HomePage> {
         child: Icon(Icons.add),
         onPressed: () {
           setState(() {
-            _playersDesk.add(context.read<Data>().newPlayerDesk());
+            _playersDesk.add(context.read<CardFieldsData>().newPlayerDesk());
           });
         },
       ),
-      bottomNavigationBar:
-          context.watch<Data>().showCardSelector ? curvedNavigationBar : null,
+      bottomNavigationBar: context.watch<CardFieldsData>().showCardSelector
+          ? curvedNavigationBar
+          : null,
     );
   }
 }

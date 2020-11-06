@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:poker_odds/widgets/card_field_board.dart';
 import 'package:poker_odds/widgets/player_desk.dart';
 
-class Data with ChangeNotifier {
+class CardFieldsData with ChangeNotifier {
   String _cardSelectorType = "C";
   bool _showCardSelector = false;
   GlobalKey<CardFieldBoardState> _selectedFieldKey =
