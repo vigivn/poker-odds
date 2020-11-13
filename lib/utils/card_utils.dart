@@ -72,4 +72,44 @@ class CardUtils {
   String get randomName {
     return names[Random().nextInt(names.length)];
   }
+
+  String valueAsLetter(int value) {
+    if (value <= 10)
+      return value.toString();
+    else {
+      switch (value) {
+        case 11:
+          return "J";
+        case 12:
+          return "Q";
+        case 13:
+          return "K";
+        case 14:
+          return "A";
+        default:
+          return "";
+      }
+    }
+  }
+
+  int valueAsNum(final String value) {
+    if (value.compareTo("1") == 1 &&
+        (value.compareTo("9") == -1 || value.compareTo("9") == 0)) {
+      return num.parse(value);
+    }
+    switch (value) {
+      case "A":
+        return 14;
+      case "K":
+        return 13;
+      case "Q":
+        return 12;
+      case "J":
+        return 11;
+      case "10":
+        return 10;
+      default:
+        return 0;
+    }
+  }
 }
