@@ -8,7 +8,7 @@ import 'package:poker_odds/utils/card_utils.dart';
 import 'package:tuple/tuple.dart';
 
 class Calculator {
-  static const int SIMULATION_COUNT = 10000;
+  static const int SIMULATION_COUNT = 1000;
 
   Tuple2<List<num>, List<num>> calculate(
       List<Card> community, List<List<Card>> players) {
@@ -30,10 +30,11 @@ class Calculator {
       }
       final combosKeys = combos.keys.toList()..sort((b, a) => a.compareTo(b));
 
-      if (combosKeys[0].compareTo(combosKeys[1]) == 1) {
-        win[combos[combosKeys[0]]] += 1;
-      }
       if (combosKeys.length >= 2) {
+        if (combosKeys[0].compareTo(combosKeys[1]) == 1) {
+          win[combos[combosKeys[0]]] += 1;
+        }
+
         for (var i = 0; i < combosKeys.length; i++) {
           if (combosKeys[i].compareTo(combosKeys[1]) == 0) {
             tie[combos[combosKeys[i]]] += 1;
