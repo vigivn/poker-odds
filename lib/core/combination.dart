@@ -12,18 +12,26 @@ class Combination {
 
     best = getQuads(cards);
     if (best.isNotEmpty) {
-      return Combo(ComboType.Quads, best.first.valueAsNum,
-          getKicker(cards, best).valueAsNum);
+      return Combo(
+          ComboType.Quads, best.first.valueAsNum, getKickerValue(cards, best));
     }
 
     best = getFullHouse(cards);
     if (best.isNotEmpty) {
-      return Combo(ComboType.FullHouse, best.first.valueAsNum, 0);
+      return Combo(
+          ComboType.FullHouse, best.first.valueAsNum + best[3].valueAsNum, 0);
     }
 
     best = getFlush(cards);
     if (best.isNotEmpty) {
-      return Combo(ComboType.Flush, best.first.valueAsNum, 0);
+      return Combo(
+          ComboType.Flush,
+          best[0].valueAsNum +
+              best[1].valueAsNum +
+              best[2].valueAsNum +
+              best[3].valueAsNum +
+              best[4].valueAsNum,
+          0);
     }
 
     best = getStraight(cards);
@@ -33,8 +41,8 @@ class Combination {
 
     best = getSet(cards);
     if (best.isNotEmpty) {
-      return Combo(ComboType.Set, best.first.valueAsNum,
-          getKicker(cards, best).valueAsNum);
+      return Combo(
+          ComboType.Set, best.first.valueAsNum, getKickerValue(cards, best));
     }
 
     best = get2Pairs(cards);
@@ -42,23 +50,38 @@ class Combination {
       return Combo(
           ComboType.TwoPairs,
           best.first.valueAsNum + best[2].valueAsNum,
-          getKicker(cards, best).valueAsNum);
+          getKickerValue(cards, best));
     }
 
     best = getPair(cards);
     if (best.isNotEmpty) {
-      return Combo(ComboType.Pair, best.first.valueAsNum,
-          getKicker(cards, best).valueAsNum);
+      return Combo(
+          ComboType.Pair, best.first.valueAsNum, getKickerValue(cards, best));
     }
 
-    final highCard = getHighCard(cards);
-    return Combo(ComboType.HighCard, highCard.valueAsNum, highCard.valueAsNum);
+    cards.sort((b, a) => a.valueAsNum.compareTo(b.valueAsNum));
+    return Combo(
+        ComboType.HighCard,
+        cards[0].valueAsNum +
+            cards[1].valueAsNum +
+            cards[2].valueAsNum +
+            cards[3].valueAsNum +
+            cards[4].valueAsNum,
+        cards.first.valueAsNum);
   }
 
   Card getKicker(List<Card> all, List<Card> combo) {
     final other = all.where((element) => !combo.contains(element)).toList();
     other.sort((b, a) => a.valueAsNum.compareTo(b.valueAsNum));
     return other.first;
+  }
+
+  int getKickerValue(List<Card> all, List<Card> combo) {
+    final other = all.where((element) => !combo.contains(element)).toList();
+    other.sort((b, a) => a.valueAsNum.compareTo(b.valueAsNum));
+    var value = 0;
+    for (var i = 0; i < 5 - combo.length; i++) value += other[i].valueAsNum;
+    return value;
   }
 
   Card getHighCard(List<Card> cards) {

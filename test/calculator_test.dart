@@ -21,10 +21,8 @@ main() {
     ];
 
     final calc = Calculator().calculate(community, [player1, player2]);
-    print(calc[0]);
-    print(calc[1]);
-    expect(calc[0], 0.0);
-    expect(calc[1], 100.0);
+    expect(calc.item1[0], 0.0);
+    expect(calc.item1[1], 100.0);
   });
 
   test("calculator random", () {
@@ -41,7 +39,7 @@ main() {
     ];
 
     final calc = Calculator().calculate(community, [player1, player2]);
-    print("${calc[0]}%");
-    print("${calc[1]}%");
+    print("${calc.item1[0]}%");
+    print("${calc.item2[1]}%");
   });
 }

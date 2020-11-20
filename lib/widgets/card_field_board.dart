@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poker_odds/core/calculator.dart';
 import 'package:poker_odds/data/available_cards_data.dart';
 import 'package:poker_odds/data/card_fields_data.dart';
 import 'package:provider/provider.dart';
@@ -52,6 +53,7 @@ class CardFieldBoardState extends State<CardFieldBoard> {
             } else {
               context.read<AvailableCardsData>().updateAvailable(_name, true);
               updateName("");
+              Calculator().cardUpdated(context);
               context.read<CardFieldsData>().showCardSelector = false;
             }
           },

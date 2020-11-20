@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:poker_odds/widgets/card_field_board.dart';
 import 'package:poker_odds/widgets/player_desk.dart';
+import 'package:poker_odds/widgets/result_field_board.dart';
 
 class CardFieldsData with ChangeNotifier {
   String _cardSelectorType = "C";
+  String get cardSelectorType => _cardSelectorType;
+
   bool _showCardSelector = false;
+  bool get showCardSelector => _showCardSelector;
+
   GlobalKey<CardFieldBoardState> _selectedFieldKey =
       GlobalKey<CardFieldBoardState>();
+  GlobalKey<CardFieldBoardState> get selectedFieldKey => _selectedFieldKey;
 
   List<GlobalKey<CardFieldBoardState>> _communityDeskKeys = [
     GlobalKey<CardFieldBoardState>(),
@@ -15,22 +21,11 @@ class CardFieldsData with ChangeNotifier {
     GlobalKey<CardFieldBoardState>(),
     GlobalKey<CardFieldBoardState>(),
   ];
+  List<GlobalKey<CardFieldBoardState>> get communityDeskKeys =>
+      _communityDeskKeys;
 
-  String get cardSelectorType {
-    return _cardSelectorType;
-  }
-
-  bool get showCardSelector {
-    return _showCardSelector;
-  }
-
-  List<GlobalKey<CardFieldBoardState>> get communityDeskKeys {
-    return _communityDeskKeys;
-  }
-
-  GlobalKey<CardFieldBoardState> get selectedFieldKey {
-    return _selectedFieldKey;
-  }
+  List<PlayerDesk> _players = [];
+  List<PlayerDesk> get players => _players;
 
   set cardSelectorType(String type) {
     _cardSelectorType = type;
@@ -48,11 +43,18 @@ class CardFieldsData with ChangeNotifier {
     notifyListeners();
   }
 
-  PlayerDesk newPlayerDesk(Function remove) {
-    return PlayerDesk(
+  void newPlayerDesk() {
+    players.add(PlayerDesk(
       cardKey1: GlobalKey<CardFieldBoardState>(),
       cardKey2: GlobalKey<CardFieldBoardState>(),
-      remove: remove,
-    );
+      result: GlobalKey<ResultFieldBoardState>(),
+    ));
+
+    notifyListeners();
+  }
+
+  void removePlayerDesk(PlayerDesk player) {
+    _players.remove(player);
+    notifyListeners();
   }
 }

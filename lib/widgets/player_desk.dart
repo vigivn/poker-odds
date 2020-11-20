@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:poker_odds/core/calculator.dart';
 import 'package:poker_odds/data/available_cards_data.dart';
+import 'package:poker_odds/data/card_fields_data.dart';
 import 'package:poker_odds/widgets/card_field_board.dart';
+import 'package:poker_odds/widgets/result_field_board.dart';
 import 'package:provider/provider.dart';
 
 class PlayerDesk extends StatelessWidget {
   PlayerDesk(
       {@required this.cardKey1,
       @required this.cardKey2,
-      @required this.remove});
+      @required this.result});
 
   final GlobalKey<CardFieldBoardState> cardKey1;
   final GlobalKey<CardFieldBoardState> cardKey2;
-  final Function remove;
+  final GlobalKey<ResultFieldBoardState> result;
 
   @override
   Widget build(BuildContext context) {
@@ -22,26 +25,7 @@ class PlayerDesk extends StatelessWidget {
           CardFieldBoard(globalKey: cardKey1),
           CardFieldBoard(globalKey: cardKey2),
           SizedBox(width: 20),
-          Column(
-            children: [
-              Text(
-                "80%",
-                style: TextStyle(
-                  color: Colors.green,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 40,
-                ),
-              ),
-              Text(
-                "20%",
-                style: TextStyle(
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 40,
-                ),
-              ),
-            ],
-          ),
+          ResultFieldBoard(globalKey: result),
           Expanded(child: Container()),
           IconButton(
             icon: Icon(Icons.close),
@@ -54,7 +38,9 @@ class PlayerDesk extends StatelessWidget {
                 context
                     .read<AvailableCardsData>()
                     .updateAvailable(cardKey2.currentState.name, true);
-              remove(this);
+              context.read<CardFieldsData>().removePlayerDesk(this);
+              Calculator().cardUpdated(context);
+              context.read<CardFieldsData>().showCardSelector = false;
             },
           ),
         ],

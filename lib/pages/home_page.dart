@@ -12,17 +12,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<PlayerDesk> _playersDesk = [];
-
-  void removePlayerDesk(PlayerDesk desk) {
-    setState(() {
-      _playersDesk.remove(desk);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     var index = 0;
+    List<PlayerDesk> _playersDesk = context.watch<CardFieldsData>().players;
     switch (context.watch<CardFieldsData>().cardSelectorType) {
       case "C":
         index = 0;
@@ -110,8 +103,7 @@ class _HomePageState extends State<HomePage> {
         child: Icon(Icons.add),
         onPressed: () {
           setState(() {
-            _playersDesk.add(
-                context.read<CardFieldsData>().newPlayerDesk(removePlayerDesk));
+            context.read<CardFieldsData>().newPlayerDesk();
           });
         },
       ),
