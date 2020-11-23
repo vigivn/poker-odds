@@ -68,7 +68,11 @@ class _HomePageState extends State<HomePage> {
           default:
             type = "C";
         }
-        context.read<CardFieldsData>().cardSelectorType = type;
+
+        if (context.read<CardFieldsData>().cardSelectorType == type)
+          context.read<CardFieldsData>().showCardSelector = false;
+        else
+          context.read<CardFieldsData>().cardSelectorType = type;
       },
     );
     return Scaffold(
