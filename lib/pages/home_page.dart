@@ -103,14 +103,16 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          setState(() {
-            context.read<CardFieldsData>().newPlayerDesk();
-          });
-        },
-      ),
+      floatingActionButton: context.watch<CardFieldsData>().showCardSelector
+          ? null
+          : FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: () {
+                setState(() {
+                  context.read<CardFieldsData>().newPlayerDesk();
+                });
+              },
+            ),
       bottomNavigationBar: context.watch<CardFieldsData>().showCardSelector
           ? curvedNavigationBar
           : null,
