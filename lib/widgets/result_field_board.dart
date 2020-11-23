@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:poker_odds/data/card_fields_data.dart';
+import 'package:provider/provider.dart';
 
 class ResultFieldBoard extends StatefulWidget {
   ResultFieldBoard({this.globalKey}) : super(key: globalKey);
@@ -9,18 +11,21 @@ class ResultFieldBoard extends StatefulWidget {
 }
 
 class ResultFieldBoardState extends State<ResultFieldBoard> {
+  num _equ;
   num _win;
   num _tie;
 
   @override
   void initState() {
+    _equ = 0;
     _win = 0;
     _tie = 0;
     super.initState();
   }
 
-  void updateResult(num win, num tie) {
+  void updateResult(num equ, num win, num tie) {
     setState(() {
+      _equ = equ;
       _win = win;
       _tie = tie;
     });
@@ -29,13 +34,22 @@ class ResultFieldBoardState extends State<ResultFieldBoard> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "${_win.toStringAsFixed(1)}% win",
+          "${_equ.toStringAsFixed(1)}% equ",
           style: TextStyle(
             color: Colors.green,
             fontWeight: FontWeight.bold,
-            fontSize: 30,
+            fontSize: 32,
+          ),
+        ),
+        Text(
+          "${_win.toStringAsFixed(1)}% win",
+          style: TextStyle(
+            color: Colors.green[200],
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
           ),
         ),
         Text(
@@ -43,7 +57,7 @@ class ResultFieldBoardState extends State<ResultFieldBoard> {
           style: TextStyle(
             color: Colors.yellow[300],
             fontWeight: FontWeight.bold,
-            fontSize: 24,
+            fontSize: 22,
           ),
         ),
       ],

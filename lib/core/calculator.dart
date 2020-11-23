@@ -57,7 +57,7 @@ class Calculator {
     context
         .read<CardFieldsData>()
         .players
-        .forEach((e) => {e.result.currentState.updateResult(0, 0)});
+        .forEach((e) => {e.result.currentState.updateResult(0, 0, 0)});
     final players = context
         .read<CardFieldsData>()
         .players
@@ -76,7 +76,9 @@ class Calculator {
 
     var i = 0;
     for (var player in players) {
-      player.result.currentState.updateResult(result.item1[i], result.item2[i]);
+      final equ = result.item1[i] + result.item2[i] / players.length;
+      player.result.currentState
+          .updateResult(equ, result.item1[i], result.item2[i]);
       i++;
     }
   }
