@@ -10,7 +10,7 @@ import 'package:tuple/tuple.dart';
 class Calculator {
   static const int SIMULATION_COUNT = 1000;
 
-  Tuple2<List<num>, List<num>> calculate(
+  Future<Tuple2<List<num>, List<num>>> calculate(
       List<Card> community, List<List<Card>> players) {
     var win = List.filled(players.length, 0);
     var tie = List.filled(players.length, 0);
@@ -43,11 +43,12 @@ class Calculator {
         }
       }
     }
-    return Tuple2(win.map((e) => e / SIMULATION_COUNT * 100).toList(),
-        tie.map((e) => e / SIMULATION_COUNT * 100).toList());
+    return Future.value(Tuple2(
+        win.map((e) => e / SIMULATION_COUNT * 100).toList(),
+        tie.map((e) => e / SIMULATION_COUNT * 100).toList()));
   }
 
-  void cardUpdated(material.BuildContext context) {
+  Future<void> cardUpdated(material.BuildContext context) async {
     final community = context
         .read<CardFieldsData>()
         .communityDeskKeys
@@ -65,21 +66,22 @@ class Calculator {
             e.cardKey1.currentState.name != "" &&
             e.cardKey2.currentState.name != "")
         .toList();
-    final result = Calculator().calculate(
-        community,
-        players
-            .map((e) => [
-                  Card.fromName(e.cardKey1.currentState.name),
-                  Card.fromName(e.cardKey2.currentState.name)
-                ])
-            .toList());
-
-    var i = 0;
-    for (var player in players) {
-      final equ = result.item1[i] + result.item2[i] / players.length;
-      player.result.currentState
-          .updateResult(equ, result.item1[i], result.item2[i]);
-      i++;
-    }
+    calculate(
+            community,
+            players
+                .map((e) => [
+                      Card.fromName(e.cardKey1.currentState.name),
+                      Card.fromName(e.cardKey2.currentState.name)
+                    ])
+                .toList())
+        .then((result) {
+      var i = 0;
+      for (var player in players) {
+        final equ = result.item1[i] + result.item2[i] / players.length;
+        player.result.currentState
+            .updateResult(equ, result.item1[i], result.item2[i]);
+        i++;
+      }
+    });
   }
 }

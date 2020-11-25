@@ -108,9 +108,7 @@ class _HomePageState extends State<HomePage> {
           : FloatingActionButton(
               child: Icon(Icons.add),
               onPressed: () {
-                setState(() {
-                  context.read<CardFieldsData>().newPlayerDesk();
-                });
+                context.read<CardFieldsData>().newPlayerDesk();
               },
             ),
       bottomNavigationBar: context.watch<CardFieldsData>().showCardSelector

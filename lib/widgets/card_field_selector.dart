@@ -28,8 +28,8 @@ class CardFieldSelector extends StatelessWidget {
                     .currentState
                     .updateName(name);
                 context.read<AvailableCardsData>().updateAvailable(name, false);
-                Calculator().cardUpdated(context);
                 context.read<CardFieldsData>().showCardSelector = false;
+                Calculator().cardUpdated(context);
               }
             },
           ),
