@@ -16,6 +16,20 @@ class PlayerDesk extends StatelessWidget {
   final GlobalKey<CardFieldBoardState> cardKey2;
   final GlobalKey<ResultFieldBoardState> result;
 
+  void remove(BuildContext context) {
+    if (cardKey1.currentState.name != "")
+      context
+          .read<AvailableCardsData>()
+          .updateAvailable(cardKey1.currentState.name, true);
+    if (cardKey2.currentState.name != "")
+      context
+          .read<AvailableCardsData>()
+          .updateAvailable(cardKey2.currentState.name, true);
+    context.read<CardFieldsData>().removePlayerDesk(this);
+    Calculator().cardUpdated(context);
+    context.read<CardFieldsData>().showCardSelector = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,23 +40,6 @@ class PlayerDesk extends StatelessWidget {
           CardFieldBoard(globalKey: cardKey2),
           SizedBox(width: 20),
           ResultFieldBoard(globalKey: result),
-          Expanded(child: Container()),
-          IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () {
-              if (cardKey1.currentState.name != "")
-                context
-                    .read<AvailableCardsData>()
-                    .updateAvailable(cardKey1.currentState.name, true);
-              if (cardKey2.currentState.name != "")
-                context
-                    .read<AvailableCardsData>()
-                    .updateAvailable(cardKey2.currentState.name, true);
-              context.read<CardFieldsData>().removePlayerDesk(this);
-              Calculator().cardUpdated(context);
-              context.read<CardFieldsData>().showCardSelector = false;
-            },
-          ),
         ],
       ),
     );

@@ -53,6 +53,7 @@ class CardFieldBoardState extends State<CardFieldBoard> {
             } else {
               context.read<AvailableCardsData>().updateAvailable(_name, true);
               updateName("");
+              context.read<CardFieldsData>().selectedField = null;
               context.read<CardFieldsData>().showCardSelector = false;
               Calculator().cardUpdated(context);
             }

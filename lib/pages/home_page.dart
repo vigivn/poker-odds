@@ -1,10 +1,12 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:poker_odds/data/card_fields_data.dart';
 import 'package:poker_odds/widgets/card_selector.dart';
 import 'package:poker_odds/widgets/community_desk.dart';
 import 'package:poker_odds/widgets/player_desk.dart';
 import 'package:provider/provider.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,22 +14,32 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _itemScrollController = ItemScrollController();
+  var _scrollItemIndex;
+
+  @override
+  void initState() {
+    _scrollItemIndex = 0;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var index = 0;
+    var _cardSelectorIndex = 0;
     List<PlayerDesk> _playersDesk = context.watch<CardFieldsData>().players;
     switch (context.watch<CardFieldsData>().cardSelectorType) {
       case "C":
-        index = 0;
+        _cardSelectorIndex = 0;
         break;
       case "D":
-        index = 1;
+        _cardSelectorIndex = 1;
         break;
       case "H":
-        index = 2;
+        _cardSelectorIndex = 2;
         break;
       case "S":
-        index = 3;
+        _cardSelectorIndex = 3;
         break;
     }
     var curvedNavigationBar = CurvedNavigationBar(
@@ -50,7 +62,7 @@ class _HomePageState extends State<HomePage> {
           scale: 18,
         ),
       ],
-      index: index,
+      index: _cardSelectorIndex,
       animationCurve: Curves.easeInOut,
       height: 50,
       onTap: (int index) {
@@ -75,7 +87,46 @@ class _HomePageState extends State<HomePage> {
           context.read<CardFieldsData>().cardSelectorType = type;
       },
     );
+
+    final _playersListView = ScrollablePositionedList.builder(
+      itemCount: _playersDesk.length,
+      itemScrollController: _itemScrollController,
+      itemBuilder: (BuildContext context, int index) {
+        return Slidable(
+            actionPane: SlidableDrawerActionPane(),
+            actionExtentRatio: 0.25,
+            secondaryActions: [
+              IconSlideAction(
+                caption: 'remove',
+                color: Colors.red,
+                icon: Icons.delete,
+                onTap: () {
+                  setState(() {
+                    _playersDesk[index].remove(context);
+                  });
+                },
+              ),
+            ],
+            child: _playersDesk[index]);
+      },
+    );
+
+    for (var player in _playersDesk) {
+      final selectedCardKey =
+          Provider.of<CardFieldsData>(context, listen: false).selectedFieldKey;
+      if (player.cardKey1 == selectedCardKey ||
+          player.cardKey2 == selectedCardKey) {
+        _scrollItemIndex = _playersDesk.indexOf(player);
+      }
+    }
+
+    //scroll to player
+    if (_playersDesk.length >= 2) {
+      _itemScrollController.scrollTo(
+          index: _scrollItemIndex, duration: Duration(milliseconds: 200));
+    }
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
         title: Text("Poker Odds"),
@@ -85,17 +136,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             CommunityDesk(),
             Expanded(
-              child: ListView.separated(
-                separatorBuilder: (BuildContext context, int index) =>
-                    const Divider(
-                  color: Colors.white,
-                  thickness: 2,
-                ),
-                itemCount: _playersDesk.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return _playersDesk[index];
-                },
-              ),
+              child: _playersListView,
             ),
             context.watch<CardFieldsData>().showCardSelector
                 ? CardSelector()
@@ -108,7 +149,17 @@ class _HomePageState extends State<HomePage> {
           : FloatingActionButton(
               child: Icon(Icons.add),
               onPressed: () {
-                context.read<CardFieldsData>().newPlayerDesk();
+                if (context.read<CardFieldsData>().players.length < 6) {
+                  context.read<CardFieldsData>().newPlayerDesk();
+                  setState(() {
+                    _scrollItemIndex = _playersDesk.length - 1;
+                  });
+                } else
+                  _scaffoldKey.currentState.showSnackBar(SnackBar(
+                      content: Text(
+                    "max can be 6 players",
+                    textAlign: TextAlign.center,
+                  )));
               },
             ),
       bottomNavigationBar: context.watch<CardFieldsData>().showCardSelector

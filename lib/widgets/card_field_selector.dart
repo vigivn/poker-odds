@@ -27,6 +27,7 @@ class CardFieldSelector extends StatelessWidget {
                     .selectedFieldKey
                     .currentState
                     .updateName(name);
+                context.read<CardFieldsData>().selectedField = null;
                 context.read<AvailableCardsData>().updateAvailable(name, false);
                 context.read<CardFieldsData>().showCardSelector = false;
                 Calculator().cardUpdated(context);
