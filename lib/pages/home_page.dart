@@ -17,31 +17,18 @@ class _HomePageState extends State<HomePage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _itemScrollController = ItemScrollController();
   var _scrollItemIndex;
+  var _cardSelectorIndex;
 
   @override
   void initState() {
     _scrollItemIndex = 0;
+    _cardSelectorIndex = 0;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    var _cardSelectorIndex = 0;
     List<PlayerDesk> _playersDesk = context.watch<CardFieldsData>().players;
-    switch (context.watch<CardFieldsData>().cardSelectorType) {
-      case "C":
-        _cardSelectorIndex = 0;
-        break;
-      case "D":
-        _cardSelectorIndex = 1;
-        break;
-      case "H":
-        _cardSelectorIndex = 2;
-        break;
-      case "S":
-        _cardSelectorIndex = 3;
-        break;
-    }
     var curvedNavigationBar = CurvedNavigationBar(
       backgroundColor: Theme.of(context).primaryColor,
       items: [
@@ -66,25 +53,12 @@ class _HomePageState extends State<HomePage> {
       animationCurve: Curves.easeInOut,
       height: 50,
       onTap: (int index) {
-        String type;
-        switch (index) {
-          case 1:
-            type = "D";
-            break;
-          case 2:
-            type = "H";
-            break;
-          case 3:
-            type = "S";
-            break;
-          default:
-            type = "C";
-        }
-
-        if (context.read<CardFieldsData>().cardSelectorType == type)
+        if (_cardSelectorIndex == index)
           context.read<CardFieldsData>().showCardSelector = false;
         else
-          context.read<CardFieldsData>().cardSelectorType = type;
+          setState(() {
+            _cardSelectorIndex = index;
+          });
       },
     );
 
@@ -111,9 +85,9 @@ class _HomePageState extends State<HomePage> {
       },
     );
 
+    final selectedCardKey =
+        Provider.of<CardFieldsData>(context, listen: false).selectedFieldKey;
     for (var player in _playersDesk) {
-      final selectedCardKey =
-          Provider.of<CardFieldsData>(context, listen: false).selectedFieldKey;
       if (player.cardKey1 == selectedCardKey ||
           player.cardKey2 == selectedCardKey) {
         _scrollItemIndex = _playersDesk.indexOf(player);
@@ -122,6 +96,7 @@ class _HomePageState extends State<HomePage> {
 
     //scroll to player
     if (_playersDesk.length >= 2) {
+      print(_scrollItemIndex);
       _itemScrollController.scrollTo(
           index: _scrollItemIndex, duration: Duration(milliseconds: 200));
     }
@@ -139,7 +114,7 @@ class _HomePageState extends State<HomePage> {
               child: _playersListView,
             ),
             context.watch<CardFieldsData>().showCardSelector
-                ? CardSelector()
+                ? CardSelector(_cardSelectorIndex)
                 : SizedBox.shrink(),
           ],
         ),
@@ -149,7 +124,7 @@ class _HomePageState extends State<HomePage> {
           : FloatingActionButton(
               child: Icon(Icons.add),
               onPressed: () {
-                if (context.read<CardFieldsData>().players.length < 6) {
+                if (context.read<CardFieldsData>().players.length < 5) {
                   context.read<CardFieldsData>().newPlayerDesk();
                   setState(() {
                     _scrollItemIndex = _playersDesk.length - 1;
@@ -157,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                 } else
                   _scaffoldKey.currentState.showSnackBar(SnackBar(
                       content: Text(
-                    "max can be 6 players",
+                    "max can be 5 players",
                     textAlign: TextAlign.center,
                   )));
               },

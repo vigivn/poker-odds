@@ -4,9 +4,6 @@ import 'package:poker_odds/widgets/player_desk.dart';
 import 'package:poker_odds/widgets/result_field_board.dart';
 
 class CardFieldsData with ChangeNotifier {
-  String _cardSelectorType = "C";
-  String get cardSelectorType => _cardSelectorType;
-
   bool _showCardSelector = false;
   bool get showCardSelector => _showCardSelector;
 
@@ -26,11 +23,6 @@ class CardFieldsData with ChangeNotifier {
 
   List<PlayerDesk> _players = [];
   List<PlayerDesk> get players => _players;
-
-  set cardSelectorType(String type) {
-    _cardSelectorType = type;
-    notifyListeners();
-  }
 
   set showCardSelector(bool value) {
     _showCardSelector = value;

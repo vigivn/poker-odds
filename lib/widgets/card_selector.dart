@@ -1,10 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:poker_odds/data/available_cards_data.dart';
-import 'package:poker_odds/data/card_fields_data.dart';
 import 'package:poker_odds/widgets/card_field_selector.dart';
 import 'package:provider/provider.dart';
 
 class CardSelector extends StatelessWidget {
+  CardSelector(this._index);
+  final int _index;
+
+  String _indexToType(int index) {
+    switch (index) {
+      case 0:
+        return "C";
+      case 1:
+        return "D";
+      case 2:
+        return "H";
+      case 3:
+        return "S";
+      default:
+        return "C";
+    }
+  }
+
   Column _cardsC(BuildContext context) {
     final available = context.watch<AvailableCardsData>().availableCards;
     return Column(
@@ -144,7 +161,6 @@ class CardSelector extends StatelessWidget {
         duration: const Duration(milliseconds: 400),
         curve: Curves.fastOutSlowIn,
         height: MediaQuery.of(context).size.width / 7 / 691 * 1056 * 2,
-        child: _getCards(
-            context, context.watch<CardFieldsData>().cardSelectorType));
+        child: _getCards(context, _indexToType(_index)));
   }
 }
