@@ -36,7 +36,8 @@ class CardFieldBoardState extends State<CardFieldBoard> {
     return Container(
       child: Card(
         child: InkWell(
-          child: Center(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 2),
             child: (_name == null || _name == "")
                 ? Icon(Icons.add)
                 : Image.asset('assets/images/$_name.png'),
@@ -61,7 +62,7 @@ class CardFieldBoardState extends State<CardFieldBoard> {
         ),
       ),
       width: MediaQuery.of(context).size.width / 5,
-      height: MediaQuery.of(context).size.width / 5 / 691 * 1056,
+      height: MediaQuery.of(context).size.width / 5 / 690 * 1036,
     );
   }
 }

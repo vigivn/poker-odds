@@ -96,7 +96,6 @@ class _HomePageState extends State<HomePage> {
 
     //scroll to player
     if (_playersDesk.length >= 2) {
-      print(_scrollItemIndex);
       _itemScrollController.scrollTo(
           index: _scrollItemIndex, duration: Duration(milliseconds: 200));
     }
