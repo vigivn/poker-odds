@@ -140,17 +140,26 @@ class Combination {
   List<Card> getStraight(List<Card> cards) {
     if (cards.length < 5) return [];
     cards.sort((b, a) => a.valueAsNum.compareTo(b.valueAsNum));
-    for (var i = 4; i < cards.length; i++) {
-      if (cards[i - 4].valueAsNum - 4 == cards[i].valueAsNum &&
-          cards[i - 3].valueAsNum - 3 == cards[i].valueAsNum &&
-          cards[i - 2].valueAsNum - 2 == cards[i].valueAsNum &&
-          cards[i - 1].valueAsNum - 1 == cards[i].valueAsNum) {
+
+    var c = [cards.first];
+    for (var i = 1; i < cards.length; i++) {
+      if (cards[i - 1].valueAsNum != cards[i].valueAsNum) {
+        c.add(cards[i]);
+      }
+    }
+    if (c.length < 5) return [];
+
+    for (var i = 4; i < c.length; i++) {
+      if (c[i - 4].valueAsNum - 4 == c[i].valueAsNum &&
+          c[i - 3].valueAsNum - 3 == c[i].valueAsNum &&
+          c[i - 2].valueAsNum - 2 == c[i].valueAsNum &&
+          c[i - 1].valueAsNum - 1 == c[i].valueAsNum) {
         return [
-          cards[i - 4],
-          cards[i - 3],
-          cards[i - 2],
-          cards[i - 1],
-          cards[i],
+          c[i - 4],
+          c[i - 3],
+          c[i - 2],
+          c[i - 1],
+          c[i],
         ];
       }
     }

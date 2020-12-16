@@ -244,4 +244,23 @@ main() {
     expect(straightFlush[3].valueAsNum, 6);
     expect(straightFlush[4].valueAsNum, 5);
   });
+
+  test("Straight", () {
+    final cards = [
+      Card(CardType.C, 4),
+      Card(CardType.D, 7),
+      Card(CardType.D, 3),
+      Card(CardType.H, 6),
+      Card(CardType.H, 8),
+      Card(CardType.S, 6),
+      Card(CardType.H, 5),
+    ];
+    final straight = Combination().getStraight(cards);
+
+    expect(straight[0].valueAsNum, 8);
+    expect(straight[1].valueAsNum, 7);
+    expect(straight[2].valueAsNum, 6);
+    expect(straight[3].valueAsNum, 5);
+    expect(straight[4].valueAsNum, 4);
+  });
 }

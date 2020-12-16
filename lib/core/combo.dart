@@ -36,4 +36,9 @@ class Combo {
     else
       return _kickerValue.compareTo(other._kickerValue);
   }
+
+  @override
+  String toString() {
+    return "type: $_type, hcv: $_highCardValue, kickerValue: $_kickerValue";
+  }
 }

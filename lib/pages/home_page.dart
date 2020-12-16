@@ -28,7 +28,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    List<PlayerDesk> _playersDesk = context.watch<CardFieldsData>().players;
+    List<PlayerDesk> _playersDesk =
+        Provider.of<CardFieldsData>(context, listen: false).players;
     var curvedNavigationBar = CurvedNavigationBar(
       backgroundColor: Theme.of(context).primaryColor,
       items: [

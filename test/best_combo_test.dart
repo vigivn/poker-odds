@@ -31,7 +31,7 @@ main() {
     ];
     final combo = Combination().bestCombo(cards);
     expect(combo.type, ComboType.Flush);
-    expect(combo.highCardValue, 14);
+    expect(combo.highCardValue, 47);
     expect(combo.kickerValue, 0);
   });
 
@@ -55,11 +55,40 @@ main() {
     final combo1 = Combination().bestCombo(community + player1);
     expect(combo1.type, ComboType.Pair);
     expect(combo1.highCardValue, 6);
-    expect(combo1.kickerValue, 10);
+    expect(combo1.kickerValue, 26);
 
     final combo2 = Combination().bestCombo(community + player2);
     expect(combo2.type, ComboType.Pair);
     expect(combo2.highCardValue, 9);
-    expect(combo2.kickerValue, 10);
+    expect(combo2.kickerValue, 23);
+  });
+
+  test("Straight tie", () {
+    final community = [
+      Card(CardType.C, 4),
+      Card(CardType.D, 7),
+      Card(CardType.D, 3),
+      Card(CardType.H, 6),
+      Card(CardType.H, 8),
+    ];
+    final player1 = [
+      Card(CardType.C, 5),
+      Card(CardType.C, 8),
+    ];
+    final player2 = [
+      Card(CardType.S, 6),
+      Card(CardType.H, 5),
+    ];
+
+    final combo1 = Combination().bestCombo(community + player1);
+    final combo2 = Combination().bestCombo(community + player2);
+
+    expect(combo1.type, ComboType.Straight);
+    expect(combo1.highCardValue, 8);
+    expect(combo1.kickerValue, 0);
+
+    expect(combo2.type, ComboType.Straight);
+    expect(combo2.highCardValue, 8);
+    expect(combo2.kickerValue, 0);
   });
 }
