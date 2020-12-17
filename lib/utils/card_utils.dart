@@ -1,7 +1,7 @@
 import 'dart:math';
 
 class CardUtils {
-  final names = const [
+  static const names = const [
     "2C",
     "2D",
     "2H",
@@ -69,9 +69,7 @@ class CardUtils {
     return names;
   }
 
-  String get randomName {
-    return names[Random().nextInt(names.length)];
-  }
+  String get randomName => names[Random().nextInt(names.length)];
 
   String valueAsLetter(int value) {
     if (value <= 10)

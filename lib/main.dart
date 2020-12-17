@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:poker_odds/data/available_cards_data.dart';
-import 'package:poker_odds/data/card_fields_data.dart';
+import 'package:poker_odds/models/card_selector_model.dart';
+import 'package:poker_odds/models/card_fields_model.dart';
 import 'package:provider/provider.dart';
 import 'pages/home_page.dart';
 
@@ -16,10 +16,10 @@ class PokerChanceApp extends StatelessWidget {
     ]);
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<CardFieldsData>(
-            create: (context) => CardFieldsData()),
-        ChangeNotifierProvider<AvailableCardsData>(
-            create: (context) => AvailableCardsData()),
+        ChangeNotifierProvider<CardFieldsModel>(
+            create: (context) => CardFieldsModel()),
+        ChangeNotifierProvider<CardSelectorModel>(
+            create: (context) => CardSelectorModel()),
       ],
       child: MaterialApp(
         title: "Poker Odds",

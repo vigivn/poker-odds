@@ -3,10 +3,7 @@ import 'package:poker_odds/widgets/card_field_board.dart';
 import 'package:poker_odds/widgets/player_desk.dart';
 import 'package:poker_odds/widgets/result_field_board.dart';
 
-class CardFieldsData with ChangeNotifier {
-  bool _showCardSelector = false;
-  bool get showCardSelector => _showCardSelector;
-
+class CardFieldsModel with ChangeNotifier {
   GlobalKey<CardFieldBoardState> _selectedFieldKey =
       GlobalKey<CardFieldBoardState>();
   GlobalKey<CardFieldBoardState> get selectedFieldKey => _selectedFieldKey;
@@ -23,11 +20,6 @@ class CardFieldsData with ChangeNotifier {
 
   List<PlayerDesk> _players = [];
   List<PlayerDesk> get players => _players;
-
-  set showCardSelector(bool value) {
-    _showCardSelector = value;
-    notifyListeners();
-  }
 
   set selectedField(GlobalKey<CardFieldBoardState> cardFieldKey) {
     _selectedFieldKey = cardFieldKey;

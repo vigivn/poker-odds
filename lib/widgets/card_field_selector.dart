@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poker_odds/core/calculator.dart';
-import 'package:poker_odds/data/available_cards_data.dart';
-import 'package:poker_odds/data/card_fields_data.dart';
+import 'package:poker_odds/models/card_selector_model.dart';
+import 'package:poker_odds/models/card_fields_model.dart';
 import 'package:provider/provider.dart';
 
 class CardFieldSelector extends StatelessWidget {
@@ -24,13 +24,13 @@ class CardFieldSelector extends StatelessWidget {
           onTap: () {
             if (clickable) {
               context
-                  .read<CardFieldsData>()
+                  .read<CardFieldsModel>()
                   .selectedFieldKey
                   .currentState
                   .updateName(name);
-              context.read<CardFieldsData>().selectedField = null;
-              context.read<AvailableCardsData>().updateAvailable(name, false);
-              context.read<CardFieldsData>().showCardSelector = false;
+              context.read<CardFieldsModel>().selectedField = null;
+              context.read<CardSelectorModel>().updateAvailable(name, false);
+              context.read<CardSelectorModel>().showCardSelector = false;
               Calculator().cardUpdated(context);
             }
           },

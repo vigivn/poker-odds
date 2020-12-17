@@ -36,19 +36,11 @@ class Card {
     }
   }
 
-  int get valueAsNum {
-    return _value;
-  }
+  int get valueAsNum => _value;
 
-  String get valueAsLetter {
-    return CardUtils().valueAsLetter(_value);
-  }
+  String get valueAsLetter => CardUtils().valueAsLetter(_value);
 
-  String get name {
-    return valueAsLetter + _type.toString().split(".").last;
-  }
+  String get name => valueAsLetter + _type.toString().split(".").last;
 
-  CardType get type {
-    return _type;
-  }
+  CardType get type => _type;
 }

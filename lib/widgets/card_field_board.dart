@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poker_odds/core/calculator.dart';
-import 'package:poker_odds/data/available_cards_data.dart';
-import 'package:poker_odds/data/card_fields_data.dart';
+import 'package:poker_odds/models/card_selector_model.dart';
+import 'package:poker_odds/models/card_fields_model.dart';
 import 'package:provider/provider.dart';
 
 class CardFieldBoard extends StatefulWidget {
@@ -32,7 +32,7 @@ class CardFieldBoardState extends State<CardFieldBoard> {
 
   @override
   Widget build(BuildContext context) {
-    var showCardSelecor = context.watch<CardFieldsData>().showCardSelector;
+    var showCardSelecor = context.watch<CardSelectorModel>().showCardSelector;
     return Container(
       child: Card(
         child: InkWell(
@@ -46,16 +46,17 @@ class CardFieldBoardState extends State<CardFieldBoard> {
           onTap: () {
             if (_name == "") {
               if (!showCardSelecor) {
-                context.read<CardFieldsData>().selectedField = widget.globalKey;
-                context.read<CardFieldsData>().showCardSelector = true;
+                context.read<CardFieldsModel>().selectedField =
+                    widget.globalKey;
+                context.read<CardSelectorModel>().showCardSelector = true;
               } else {
-                context.read<CardFieldsData>().showCardSelector = false;
+                context.read<CardSelectorModel>().showCardSelector = false;
               }
             } else {
-              context.read<AvailableCardsData>().updateAvailable(_name, true);
+              context.read<CardSelectorModel>().updateAvailable(_name, true);
               updateName("");
-              context.read<CardFieldsData>().selectedField = null;
-              context.read<CardFieldsData>().showCardSelector = false;
+              context.read<CardFieldsModel>().selectedField = null;
+              context.read<CardSelectorModel>().showCardSelector = false;
               Calculator().cardUpdated(context);
             }
           },

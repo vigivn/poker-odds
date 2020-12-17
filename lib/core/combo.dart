@@ -16,17 +16,11 @@ class Combo {
   int _highCardValue;
   int _kickerValue;
 
-  ComboType get type {
-    return _type;
-  }
+  ComboType get type => _type;
 
-  int get highCardValue {
-    return _highCardValue;
-  }
+  int get highCardValue => _highCardValue;
 
-  int get kickerValue {
-    return _kickerValue;
-  }
+  int get kickerValue => _kickerValue;
 
   int compareTo(Combo other) {
     if (_type.index.compareTo(other._type.index) != 0)

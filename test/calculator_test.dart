@@ -20,9 +20,10 @@ main() {
       Card(CardType.H, 3),
     ];
 
-    final calc = Calculator().calculate(community, [player1, player2]);
-    expect(calc.item1[0], 0.0);
-    expect(calc.item1[1], 100.0);
+    Calculator().calculate(community, [player1, player2]).then((value) {
+      expect(value.item1[0], 0.0);
+      expect(value.item1[1], 100.0);
+    });
   });
 
   test("calculator random", () {
@@ -38,8 +39,9 @@ main() {
       Card(CardType.D, 6),
     ];
 
-    final calc = Calculator().calculate(community, [player1, player2]);
-    print("${calc.item1[0]}%");
-    print("${calc.item2[1]}%");
+    Calculator().calculate(community, [player1, player2]).then((value) {
+      print("${value.item1[0]}%");
+      print("${value.item2[1]}%");
+    });
   });
 }

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:poker_odds/data/card_fields_data.dart';
-import 'package:provider/provider.dart';
 
 class ResultFieldBoard extends StatefulWidget {
   ResultFieldBoard({this.globalKey}) : super(key: globalKey);

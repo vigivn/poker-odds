@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:poker_odds/core/card.dart';
 import 'package:poker_odds/core/combination.dart';
 import 'package:poker_odds/core/combo.dart';
-import 'package:poker_odds/data/card_fields_data.dart';
+import 'package:poker_odds/models/card_fields_model.dart';
 import 'package:poker_odds/utils/card_utils.dart';
 import 'package:tuple/tuple.dart';
 
@@ -14,7 +14,7 @@ class Calculator {
       List<Card> community, List<List<Card>> players) {
     var win = List.filled(players.length, 0);
     var tie = List.filled(players.length, 0);
-    List<String> availables = List.from(CardUtils().names);
+    List<String> availables = List.from(CardUtils.names);
     for (var card in community) availables.remove(card.name);
     for (var player in players)
       for (var card in player) availables.remove(card.name);
@@ -50,17 +50,17 @@ class Calculator {
 
   Future<void> cardUpdated(material.BuildContext context) async {
     final community = context
-        .read<CardFieldsData>()
+        .read<CardFieldsModel>()
         .communityDeskKeys
         .where((e) => e.currentState.name != "")
         .map((e) => Card.fromName(e.currentState.name))
         .toList();
     context
-        .read<CardFieldsData>()
+        .read<CardFieldsModel>()
         .players
         .forEach((e) => {e.result.currentState.updateResult(0, 0, 0)});
     final players = context
-        .read<CardFieldsData>()
+        .read<CardFieldsModel>()
         .players
         .where((e) =>
             e.cardKey1.currentState.name != "" &&

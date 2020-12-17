@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poker_odds/core/calculator.dart';
-import 'package:poker_odds/data/available_cards_data.dart';
-import 'package:poker_odds/data/card_fields_data.dart';
+import 'package:poker_odds/models/card_selector_model.dart';
+import 'package:poker_odds/models/card_fields_data.dart';
 import 'package:poker_odds/widgets/card_field_board.dart';
 import 'package:poker_odds/widgets/result_field_board.dart';
 import 'package:provider/provider.dart';
@@ -19,15 +19,15 @@ class PlayerDesk extends StatelessWidget {
   void remove(BuildContext context) {
     if (cardKey1.currentState.name != "")
       context
-          .read<AvailableCardsData>()
+          .read<CardSelectorModel>()
           .updateAvailable(cardKey1.currentState.name, true);
     if (cardKey2.currentState.name != "")
       context
-          .read<AvailableCardsData>()
+          .read<CardSelectorModel>()
           .updateAvailable(cardKey2.currentState.name, true);
-    context.read<CardFieldsData>().removePlayerDesk(this);
+    context.read<CardFieldsModel>().removePlayerDesk(this);
     Calculator().cardUpdated(context);
-    context.read<CardFieldsData>().showCardSelector = false;
+    context.read<CardSelectorModel>().showCardSelector = false;
   }
 
   @override

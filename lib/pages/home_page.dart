@@ -1,7 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:poker_odds/data/card_fields_data.dart';
+import 'package:poker_odds/models/card_fields_model.dart';
+import 'package:poker_odds/models/card_selector_model.dart';
 import 'package:poker_odds/widgets/card_selector.dart';
 import 'package:poker_odds/widgets/community_desk.dart';
 import 'package:poker_odds/widgets/player_desk.dart';
@@ -29,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     List<PlayerDesk> _playersDesk =
-        Provider.of<CardFieldsData>(context, listen: false).players;
+        Provider.of<CardFieldsModel>(context, listen: false).players;
     var curvedNavigationBar = CurvedNavigationBar(
       backgroundColor: Theme.of(context).primaryColor,
       items: [
@@ -55,7 +56,7 @@ class _HomePageState extends State<HomePage> {
       height: 50,
       onTap: (int index) {
         if (_cardSelectorIndex == index)
-          context.read<CardFieldsData>().showCardSelector = false;
+          context.read<CardSelectorModel>().showCardSelector = false;
         else
           setState(() {
             _cardSelectorIndex = index;
@@ -87,7 +88,7 @@ class _HomePageState extends State<HomePage> {
     );
 
     final selectedCardKey =
-        Provider.of<CardFieldsData>(context, listen: false).selectedFieldKey;
+        Provider.of<CardFieldsModel>(context, listen: false).selectedFieldKey;
     for (var player in _playersDesk) {
       if (player.cardKey1 == selectedCardKey ||
           player.cardKey2 == selectedCardKey) {
@@ -113,19 +114,19 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: _playersListView,
             ),
-            context.watch<CardFieldsData>().showCardSelector
+            context.watch<CardSelectorModel>().showCardSelector
                 ? CardSelector(_cardSelectorIndex)
                 : SizedBox.shrink(),
           ],
         ),
       ),
-      floatingActionButton: context.watch<CardFieldsData>().showCardSelector
+      floatingActionButton: context.watch<CardSelectorModel>().showCardSelector
           ? null
           : FloatingActionButton(
               child: Icon(Icons.add),
               onPressed: () {
-                if (context.read<CardFieldsData>().players.length < 5) {
-                  context.read<CardFieldsData>().newPlayerDesk();
+                if (context.read<CardFieldsModel>().players.length < 5) {
+                  context.read<CardFieldsModel>().newPlayerDesk();
                   setState(() {
                     _scrollItemIndex = _playersDesk.length - 1;
                   });
@@ -137,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                   )));
               },
             ),
-      bottomNavigationBar: context.watch<CardFieldsData>().showCardSelector
+      bottomNavigationBar: context.watch<CardSelectorModel>().showCardSelector
           ? curvedNavigationBar
           : null,
     );

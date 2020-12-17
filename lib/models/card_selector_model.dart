@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
 
-class AvailableCardsData with ChangeNotifier {
+class CardSelectorModel with ChangeNotifier {
   HashMap<String, bool> _available = HashMap.from({
     "2C": true,
     "3C": true,
@@ -57,12 +57,19 @@ class AvailableCardsData with ChangeNotifier {
     "AS": true,
   });
 
-  HashMap<String, bool> get availableCards {
-    return _available;
-  }
+  HashMap<String, bool> get availableCards => _available;
 
   void updateAvailable(String key, bool value) {
     _available[key] = value;
+
+    notifyListeners();
+  }
+
+  bool _showCardSelector = false;
+  bool get showCardSelector => _showCardSelector;
+
+  set showCardSelector(bool value) {
+    _showCardSelector = value;
 
     notifyListeners();
   }
