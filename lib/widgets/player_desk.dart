@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poker_odds/core/calculator.dart';
 import 'package:poker_odds/models/card_selector_model.dart';
-import 'package:poker_odds/models/card_fields_data.dart';
+import 'package:poker_odds/models/card_fields_model.dart';
 import 'package:poker_odds/widgets/card_field_board.dart';
 import 'package:poker_odds/widgets/result_field_board.dart';
 import 'package:provider/provider.dart';
